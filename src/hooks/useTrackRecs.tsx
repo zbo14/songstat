@@ -31,7 +31,7 @@ export function useTrackRecs({
     error,
   } = useFetchTrackRecs();
 
-  const debounceFetchTrackRecs = useDebouncedCallback(fetchTrackRecs, 1e3);
+  const debounceFetchTrackRecs = useDebouncedCallback(fetchTrackRecs, 750);
 
   useEffect(() => {
     debounceFetchTrackRecs(currentTrack);

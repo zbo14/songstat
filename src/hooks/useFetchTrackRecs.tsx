@@ -23,6 +23,7 @@ export function useFetchTrackRecs() {
   const fetchTrackRecs = useCallback(
     async (currentTrack: Record<string, any> | null): Promise<void> => {
       if (currentTrack === null) {
+        setIsLoading(false);
         setTrackRecs(null);
         return;
       }

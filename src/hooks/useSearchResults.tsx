@@ -6,7 +6,7 @@ export function useSearchResults(search: string) {
   const { searchResults, fetchSearchResults } = useFetchSearchResults();
   const debounceFetchSearchResults = useDebouncedCallback(
     fetchSearchResults,
-    1e3
+    750
   );
 
   useEffect(() => {

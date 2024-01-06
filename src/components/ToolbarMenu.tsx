@@ -1,16 +1,20 @@
 'use client';
 
-import { useState, MouseEvent } from 'react';
+import { useState, MouseEvent, useContext } from 'react';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useRouter } from 'next/navigation';
+import { CurrentTrackContext } from '@/contexts/CurrentTrack';
+import { useCookies } from 'next-client-cookies';
 
 export default function ToolbarMenu() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const router = useRouter();
+  const { error } = useContext(CurrentTrackContext);
+  const cookies = useCookies();
 
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -31,6 +35,9 @@ export default function ToolbarMenu() {
 
   function handleLogout() {
     handleClose();
+    cookies.remove('access_token');
+    cookies.remove('refresh_token');
+    window.location.href = '/';
   }
 
   function handleRecs() {
@@ -38,15 +45,14 @@ export default function ToolbarMenu() {
     router.push('/recs');
   }
 
-  return (
+  return error ? (
+    <></>
+  ) : (
     <div>
       <IconButton onClick={handleClick} size='large'>
         <MenuIcon />
       </IconButton>
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-        {/* <MenuItem onClick={handleClose}>
-          My stats
-        </MenuItem> */}
         <MenuItem onClick={handleRecs}>Recs</MenuItem>
         <MenuItem onClick={handleMyAccount}>My account</MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
