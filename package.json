@@ -1,0 +1,37 @@
+{
+  "name": "songstat",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint; prettier . --write",
+    "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest"
+  },
+  "dependencies": {
+    "@emotion/cache": "latest",
+    "@emotion/react": "latest",
+    "@emotion/styled": "latest",
+    "@mui/icons-material": "latest",
+    "@mui/material": "latest",
+    "axios": "^1.6.2",
+    "mui-image": "^1.0.7",
+    "nanoid": "^5.0.4",
+    "next": "latest",
+    "next-client-cookies": "^1.1.0",
+    "react": "latest",
+    "react-dom": "latest",
+    "use-debounce": "^10.0.0"
+  },
+  "devDependencies": {
+    "@types/mui-image": "^1.0.5",
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "eslint": "latest",
+    "eslint-config-next": "latest",
+    "prettier": "^3.1.1",
+    "typescript": "latest"
+  }
+}
