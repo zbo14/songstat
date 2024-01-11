@@ -52,8 +52,8 @@ export default function RootLayout({
                     <Image
                       alt='logo'
                       src='/images/logo2.png'
-                      height={48}
-                      width={48}
+                      height={40}
+                      width={40}
                     />
                     <Typography variant='h6' color='text.primary'>
                       SongStat
