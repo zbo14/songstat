@@ -1,7 +1,9 @@
 {
   "name": "songstat",
   "version": "0.1.0",
-  "private": true,
+  "description": "A Spotify app that displays quantitative and qualitative song information.",
+  "author": "Zach Balder",
+  "license": "ISC",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

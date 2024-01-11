@@ -1,5 +1,9 @@
 # songstat
 
+Learn more about the songs you love!
+
+A Spotify app that displays quantitative and qualitative song information.
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped using [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with Material UI installed.
 
 ## How to use
