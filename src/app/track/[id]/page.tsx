@@ -5,6 +5,7 @@ import Stack from '@mui/material/Stack';
 import { request } from '@/util';
 import { getCookies } from 'next-client-cookies/server';
 import { redirect } from 'next/navigation';
+import Link from '@mui/material/Link';
 
 export default async function TrackPage({
   params,
@@ -60,6 +61,16 @@ export default async function TrackPage({
             audioFeatures={audioFeatures}
             audioAnalysis={audioAnalysis}
           />
+          <Typography variant='subtitle2' align='right'>
+            Data from the{' '}
+            <Link
+              href='https://developer.spotify.com/documentation/web-api'
+              target='_blank'
+              sx={{ textDecoration: 'none' }}
+            >
+              Spotify Web API
+            </Link>
+          </Typography>
         </>
       )}
       <CurrentTrack />

@@ -2,8 +2,7 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Toolbar from '@mui/material/Toolbar';
-
-import { LibraryMusic as LibraryMusicIcon } from '@mui/icons-material';
+import Image from 'next/image';
 
 import ToolbarMenu from '@/components/ToolbarMenu';
 import Link from '@mui/material/Link';
@@ -48,14 +47,13 @@ export default function RootLayout({
                     display='flex'
                     alignItems='center'
                     href='/'
-                    sx={{ textDecoration: 'none' }}
+                    sx={{ textDecoration: 'none', gap: 1 }}
                   >
-                    <LibraryMusicIcon
-                      sx={{
-                        color: '#444',
-                        mr: 2,
-                        transform: 'translateY(-2px)',
-                      }}
+                    <Image
+                      alt='logo'
+                      src='/images/logo2.png'
+                      height={48}
+                      width={48}
                     />
                     <Typography variant='h6' color='text.primary'>
                       SongStat
@@ -78,7 +76,7 @@ export default function RootLayout({
                 },
 
                 px: {
-                  xs: 1,
+                  xs: 4,
                   lg: 10,
                 },
               }}
