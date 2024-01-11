@@ -37,9 +37,20 @@ const analysisStats: Stat[] = [
     description: 'The key the track is in.',
 
     transformer(keyIndex: number, analysis: Record<string, any>): string {
-      return `${keys[keyIndex]} ${
-        analysis.track.mode ? 'major' : 'minor'
-      } (certainty: ${toPercentage(analysis.track.key_confidence)})`;
+      return `${keys[keyIndex]} (certainty: ${toPercentage(
+        analysis.track.key_confidence
+      )})`;
+    },
+  },
+  {
+    field: 'mode',
+    description:
+      'Mode indicates the modality (major or minor) of a track, the type of scale from which its melodic content is derived.',
+
+    transformer(mode: number, analysis: Record<string, any>): string {
+      return `${mode === 1 ? 'Major' : 'Minor'} (certainty: ${toPercentage(
+        analysis.track.mode_confidence
+      )})`;
     },
   },
   {
