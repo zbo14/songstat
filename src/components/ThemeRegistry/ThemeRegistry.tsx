@@ -1,15 +1,15 @@
 'use client';
-import * as React from 'react';
+
+import { ReactNode } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import NextAppDirEmotionCacheProvider from './EmotionCache';
-import theme from './theme';
+import { ThemeContext } from '@/contexts/Theme';
+import { useContext } from 'react';
 
-export default function ThemeRegistry({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function ThemeRegistry({ children }: { children: ReactNode }) {
+  const { theme } = useContext(ThemeContext);
+
   return (
     <NextAppDirEmotionCacheProvider options={{ key: 'mui' }}>
       <ThemeProvider theme={theme}>

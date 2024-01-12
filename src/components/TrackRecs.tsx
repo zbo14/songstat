@@ -135,7 +135,7 @@ export default function TrackRecs() {
     <CircularProgress sx={{ alignSelf: 'center' }} />
   ) : trackRecs ? (
     <Stack rowGap={4} pt={3} pb={6}>
-      <Typography align='center' variant='h4'>
+      <Typography align='center' variant='h5'>
         Filters
       </Typography>
       <Grid container columnSpacing={8} rowSpacing={4}>
@@ -143,7 +143,7 @@ export default function TrackRecs() {
           ({ name, value, handleChange, min, max, step, marks }, i) => {
             return (
               <Grid item xs={6} lg={4} key={i}>
-                <Typography variant='h6' gutterBottom>
+                <Typography variant='subtitle1' gutterBottom>
                   {name}
                 </Typography>
                 <Slider
@@ -160,7 +160,7 @@ export default function TrackRecs() {
           }
         )}
       </Grid>
-      <Typography align='center' variant='h4' pt={8} pb={6}>
+      <Typography align='center' variant='h5' pt={8} pb={6}>
         Recommendations
       </Typography>
       <Stack>

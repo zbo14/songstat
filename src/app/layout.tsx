@@ -2,13 +2,12 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Toolbar from '@mui/material/Toolbar';
-import Image from 'next/image';
 
 import ToolbarMenu from '@/components/ToolbarMenu';
-import Link from '@mui/material/Link';
-import Typography from '@mui/material/Typography';
 import { Providers } from './providers';
 import { CookiesProvider } from 'next-client-cookies/server';
+import ThemeSwitch from '@/components/ThemeSwitch';
+import LogoButton from '@/components/LogoButton';
 
 export const metadata = {
   title: 'songstat',
@@ -42,25 +41,15 @@ export default function RootLayout({
                   justifyContent: 'space-between',
                 }}
               >
-                <Stack direction='row' alignItems='center'>
-                  <Link
-                    display='flex'
-                    alignItems='center'
-                    href='/'
-                    sx={{ textDecoration: 'none', gap: 1 }}
-                  >
-                    <Image
-                      alt='logo'
-                      src='/images/logo2.png'
-                      height={40}
-                      width={40}
-                    />
-                    <Typography variant='h6' color='text.primary'>
-                      SongStat
-                    </Typography>
-                  </Link>
+                <LogoButton />
+                <Stack
+                  direction='row'
+                  gap={{ xs: 2, lg: 4 }}
+                  alignItems='center'
+                >
+                  <ThemeSwitch />
+                  <ToolbarMenu />
                 </Stack>
-                <ToolbarMenu />
               </Toolbar>
             </AppBar>
             <Box
