@@ -27,7 +27,7 @@ export default function TrackMenu({
   }
 
   function handleStats() {
-    handleClose()
+    handleClose();
     router.push(`/track/${track?.id}`);
   }
 

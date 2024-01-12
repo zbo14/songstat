@@ -5,7 +5,6 @@ import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { capitalize } from '@/util';
-import Paper from '@mui/material/Paper';
 
 export default function TrackStatDetails({
   alias,
