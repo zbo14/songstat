@@ -27,12 +27,13 @@ export default function TrackMenu({
   }
 
   function handleStats() {
+    handleClose()
     router.push(`/track/${track?.id}`);
   }
 
-  function handleRecs() {
-    router.push('/recs');
-  }
+  // function handleRecs() {
+  //   router.push('/recs');
+  // }
 
   return (
     <div>

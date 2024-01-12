@@ -5,6 +5,7 @@ import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { capitalize } from '@/util';
+import Paper from '@mui/material/Paper';
 
 export default function TrackStatDetails({
   alias,
@@ -61,8 +62,12 @@ export default function TrackStatDetails({
           vertical: 'bottom',
           horizontal: 'left',
         }}
-        PaperProps={{
-          style: { maxWidth: '25%' },
+        slotProps={{
+          paper: {
+            sx: {
+              maxWidth: { xs: '90%', lg: '30%' },
+            },
+          },
         }}
       >
         <Typography sx={{ p: 2 }}>{description}</Typography>

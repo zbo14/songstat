@@ -21,7 +21,10 @@ export default function CurrentTrack() {
       <LoginButton />
     </Stack>
   ) : currentTrack ? (
-    <TrackDisplay track={currentTrack} isCurrent />
+    <Stack gap={1}>
+      <Typography variant='h6'>Currently playing</Typography>
+      <TrackDisplay track={currentTrack} isCurrent />
+    </Stack>
   ) : (
     <Typography align='center' variant='h5'>
       No song playing right now!

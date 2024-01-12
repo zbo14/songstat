@@ -40,7 +40,12 @@ export default function ToolbarMenu() {
     window.location.href = '/';
   }
 
-  function handleRecs() {
+  function handleHome() {
+    handleClose();
+    router.push('/');
+  }
+
+  function handleSongRecs() {
     handleClose();
     router.push('/recs');
   }
@@ -53,7 +58,8 @@ export default function ToolbarMenu() {
         <MenuIcon />
       </IconButton>
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-        <MenuItem onClick={handleRecs}>Recs</MenuItem>
+        <MenuItem onClick={handleHome}>Home</MenuItem>
+        <MenuItem onClick={handleSongRecs}>Song recs</MenuItem>
         <MenuItem onClick={handleMyAccount}>My account</MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>

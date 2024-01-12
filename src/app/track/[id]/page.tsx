@@ -6,6 +6,7 @@ import { request } from '@/util';
 import { getCookies } from 'next-client-cookies/server';
 import { redirect } from 'next/navigation';
 import Link from '@mui/material/Link';
+import Box from '@mui/material/Box';
 
 export default async function TrackPage({
   params,
@@ -42,7 +43,7 @@ export default async function TrackPage({
   const [audioFeatures, audioAnalysis, track] = results;
 
   return (
-    <Stack height='100%' justifyContent='space-between'>
+    <Stack height='100%' justifyContent='space-between' gap={{ xs: 4 }}>
       {track.error ? (
         <Typography align='center' variant='h4'>
           Track not found
@@ -73,7 +74,9 @@ export default async function TrackPage({
           </Typography>
         </>
       )}
-      <CurrentTrack />
+      <Box pb={4}>
+        <CurrentTrack />
+      </Box>
     </Stack>
   );
 }

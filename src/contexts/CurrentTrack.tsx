@@ -29,6 +29,8 @@ export function CurrentTrackProvider({
   const cookies = useCookies();
 
   useEffect(() => {
+    let lastFetched = 0;
+
     async function fetchCurrentTrack(retry = 0): Promise<void> {
       try {
         if (retry === MAX_RETRIES) {
@@ -39,6 +41,8 @@ export function CurrentTrackProvider({
           url: 'https://api.spotify.com/v1/me/player/currently-playing',
           cookies,
         });
+
+        lastFetched = Date.now();
 
         switch (response.status) {
           case 200: {
@@ -82,14 +86,25 @@ export function CurrentTrackProvider({
       }
     }
 
-    const interval = setInterval(fetchCurrentTrack, 10e3);
+    const interval = setInterval(() => {
+      if (Date.now() - lastFetched >= 10e3) {
+        fetchCurrentTrack();
+      }
+    }, 10e3);
 
     setIsLoading(true);
 
     fetchCurrentTrack().then(() => setIsLoading(false));
 
+    function handleVisibilityChange() {
+      fetchCurrentTrack();
+    }
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
     return () => {
       clearInterval(interval);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, [cookies]);
 

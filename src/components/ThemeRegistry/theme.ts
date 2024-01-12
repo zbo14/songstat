@@ -1,7 +1,7 @@
-import { Roboto } from 'next/font/google';
+import { Fira_Sans } from 'next/font/google';
 import { createTheme } from '@mui/material/styles';
 
-const roboto = Roboto({
+const firaSans = Fira_Sans({
   weight: ['300', '400', '500', '700'],
   subsets: ['latin'],
   display: 'swap',
@@ -30,7 +30,7 @@ const theme = createTheme({
   },
 
   typography: {
-    fontFamily: roboto.style.fontFamily,
+    fontFamily: firaSans.style.fontFamily,
     fontSize: 14,
   },
 
