@@ -3,11 +3,17 @@
 import { ReactNode } from 'react';
 import ThemeRegistry from '@/components/ThemeRegistry/ThemeRegistry';
 import { CurrentTrackProvider } from '@/contexts/CurrentTrack';
-import { ThemeProvider } from '@/contexts/Theme';
+import { Mode, ThemeProvider } from '@/contexts/Theme';
 
-export function Providers({ children }: { children: ReactNode | ReactNode[] }) {
+export function Providers({
+  children,
+  themeMode,
+}: {
+  children: ReactNode | ReactNode[];
+  themeMode: string;
+}) {
   return (
-    <ThemeProvider>
+    <ThemeProvider themeMode={themeMode}>
       <ThemeRegistry>
         <CurrentTrackProvider>{children}</CurrentTrackProvider>
       </ThemeRegistry>

@@ -12,11 +12,15 @@ export default function ThemeRegistry({ children }: { children: ReactNode }) {
 
   return (
     <NextAppDirEmotionCacheProvider options={{ key: 'mui' }}>
-      <ThemeProvider theme={theme}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-        <CssBaseline />
-        {children}
-      </ThemeProvider>
+      {theme !== null ? (
+        <ThemeProvider theme={theme}>
+          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+          <CssBaseline />
+          {children}
+        </ThemeProvider>
+      ) : (
+        <></>
+      )}
     </NextAppDirEmotionCacheProvider>
   );
 }

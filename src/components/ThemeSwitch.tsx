@@ -23,12 +23,16 @@ export default function ThemeSwitch() {
     <Stack direction='row' alignItems='center'>
       <LightModeIcon
         fontSize='small'
-        color={mode === Mode.light ? 'primary' : 'disabled'}
+        color={mode === Mode.Light ? 'primary' : 'disabled'}
       />
-      <Switch onChange={handleChange} size='small' />
+      <Switch
+        onChange={handleChange}
+        size='small'
+        checked={mode === Mode.Dark}
+      />
       <DarkModeIcon
         fontSize='small'
-        color={mode === Mode.dark ? 'primary' : 'disabled'}
+        color={mode === Mode.Dark ? 'primary' : 'disabled'}
       />
     </Stack>
   );

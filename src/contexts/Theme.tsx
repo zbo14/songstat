@@ -1,6 +1,7 @@
 import { ReactNode, createContext, useMemo, useState } from 'react';
 import { Fira_Sans } from 'next/font/google';
 import { createTheme, Theme } from '@mui/material/styles';
+import { useCookies } from 'next-client-cookies';
 
 const firaSans = Fira_Sans({
   weight: ['300', '400', '500', '700'],
@@ -9,55 +10,40 @@ const firaSans = Fira_Sans({
 });
 
 export enum Mode {
-  'light',
-  'dark',
+  Light = 'light',
+  Dark = 'dark',
 }
 
 interface ThemeData {
   mode: Mode;
-  theme: Theme;
+  theme: Theme | null;
   switchToLightTheme: () => void;
   switchToDarkTheme: () => void;
 }
 
-const lightTheme = createTheme({
-  palette: {
-    mode: 'light',
-
-    primary: {
-      main: '#268396',
-    },
-
-    background: {
-      default: '#EBEBEB',
-      paper: '#F4F4F4',
-    },
-  },
-
-  typography: {
-    fontFamily: firaSans.style.fontFamily,
-    fontSize: 14,
-  },
-});
-
 export const ThemeContext = createContext<ThemeData>({
-  mode: Mode.light,
-  theme: lightTheme,
+  mode: Mode.Light,
+  theme: null,
   switchToDarkTheme: () => {},
   switchToLightTheme: () => {},
 });
 
 export function ThemeProvider({
   children,
+  themeMode,
 }: {
   children: ReactNode | ReactNode[];
+  themeMode: string;
 }) {
-  const [mode, setMode] = useState<Mode>(Mode.light);
+  const [mode, setMode] = useState<Mode>(
+    themeMode === 'dark' ? Mode.Dark : Mode.Light
+  );
+  const cookies = useCookies();
 
   const theme = useMemo(() => {
     return createTheme({
       palette:
-        mode === Mode.dark
+        mode === Mode.Dark
           ? {
               mode: 'dark',
 
@@ -91,11 +77,13 @@ export function ThemeProvider({
   }, [mode]);
 
   function switchToLightTheme(): void {
-    setMode(Mode.light);
+    setMode(Mode.Light);
+    cookies.set('theme', Mode.Light);
   }
 
   function switchToDarkTheme(): void {
-    setMode(Mode.dark);
+    setMode(Mode.Dark);
+    cookies.set('theme', Mode.Dark);
   }
 
   return (
