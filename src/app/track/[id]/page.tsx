@@ -62,7 +62,7 @@ export default async function TrackPage({
             audioFeatures={audioFeatures}
             audioAnalysis={audioAnalysis}
           />
-          <Typography variant='subtitle2' align='right' mt={3}>
+          <Typography variant='subtitle2' align='right' mt={4}>
             Data from the{' '}
             <Link
               href='https://developer.spotify.com/documentation/web-api'

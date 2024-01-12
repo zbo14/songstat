@@ -36,9 +36,11 @@ export default function TrackStatDetails({
         onClick={handleClick}
         fullWidth={true}
         disableRipple
+        size='large'
         sx={{
           p: 0,
           m: 0,
+          textTransform: 'none',
           justifyContent: 'flex-start',
 
           '&:hover': {
