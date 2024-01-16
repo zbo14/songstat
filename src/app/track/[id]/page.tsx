@@ -59,6 +59,7 @@ export default async function TrackPage({
             </Typography>
           </Stack>
           <TrackStats
+            track={track}
             audioFeatures={audioFeatures}
             audioAnalysis={audioAnalysis}
           />
