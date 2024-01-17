@@ -67,7 +67,7 @@ export function CurrentTrackProvider({
 
           case 401: {
             await suspend(2 ** retry * 500);
-            await fetch('http://localhost:3000/api/refresh_token');
+            await fetch(process.env.NEXT_PUBLIC_REFRESH_TOKEN_URL ?? '');
             await fetchCurrentTrack(++retry);
 
             return;
