@@ -65,6 +65,13 @@ export function CurrentTrackProvider({
             return;
           }
 
+          case 400: {
+            cookies.remove('access_token');
+            cookies.remove('refresh_token');
+            window.location.href = '/';
+            return;
+          }
+
           case 401: {
             await suspend(2 ** retry * 500);
             await fetch(process.env.NEXT_PUBLIC_REFRESH_TOKEN_URL ?? '');
