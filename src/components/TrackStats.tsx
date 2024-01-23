@@ -42,7 +42,7 @@ function formatTime({
 
   const end = start + duration;
   const endMinutes = Math.floor(end / 60);
-  const endSeconds = Math.floor(end % 60);
+  const endSeconds = String(Math.floor(end % 60)).padStart(2, '0');
 
   return `${startMinutes}:${startSeconds}-${endMinutes}:${endSeconds}`;
 }
@@ -105,7 +105,7 @@ const analysisStats: Stat[] = [
         const lastSection = combinedSections[combinedSections.length - 1];
 
         if (
-          lastSection?.start + lastSection?.duration === section.start &&
+          lastSection?.start + lastSection?.duration + 1 >= section.start &&
           lastSection?.key === section.key &&
           lastSection?.mode === section.mode
         ) {
@@ -167,7 +167,7 @@ const analysisStats: Stat[] = [
         const lastSection = combinedSections[combinedSections.length - 1];
 
         if (
-          lastSection?.start + lastSection?.duration === section.start &&
+          lastSection?.start + lastSection?.duration + 1 >= section.start &&
           Math.abs(lastSection?.tempo - section.tempo) < 2
         ) {
           lastSection.duration += section.duration;
@@ -179,7 +179,7 @@ const analysisStats: Stat[] = [
       return (
         combinedSections
           .map((section: Record<string, any>) => {
-            return `${section.tempo} (${formatTime({
+            return `${round(section.tempo)} bpm (${formatTime({
               start: section.start,
               duration: section.duration,
             })})`;
