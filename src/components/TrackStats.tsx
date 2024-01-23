@@ -88,28 +88,44 @@ const analysisStats: Stat[] = [
     ): string {
       const { key, mode } = analysis.track;
 
+      const filteredSections = analysis.sections.filter(
+        (section: Record<string, any>) => {
+          return (
+            section.duration >= 10 &&
+            section.key_confidence > 0.5 &&
+            section.mode_confidence > 0.5 &&
+            (section.key !== key || section.mode !== mode)
+          );
+        }
+      );
+
+      const combinedSections: Record<string, any>[] = [];
+
+      for (const section of filteredSections) {
+        const lastSection = combinedSections[combinedSections.length - 1];
+
+        if (
+          lastSection?.start + lastSection?.duration === section.start &&
+          lastSection?.key === section.key &&
+          lastSection?.mode === section.mode
+        ) {
+          lastSection.duration += section.duration;
+        } else {
+          combinedSections.push(section);
+        }
+      }
+
       return (
-        Array.from(
-          new Set(
-            analysis.sections
-              .filter((section: Record<string, any>) => {
-                return (
-                  section.duration >= 10 &&
-                  section.key_confidence > 0.5 &&
-                  section.mode_confidence > 0.5 &&
-                  (section.key !== key || section.mode !== mode)
-                );
-              })
-              .map((section: Record<string, any>) => {
-                return `${keys[section.key]} ${
-                  section.mode === 1 ? 'Major' : 'Minor'
-                } (${formatTime({
-                  start: section.start,
-                  duration: section.duration,
-                })})`;
-              })
-          )
-        ).join(', ') || '--'
+        combinedSections
+          .map((section: Record<string, any>) => {
+            return `${keys[section.key]} ${
+              section.mode === 1 ? 'Major' : 'Minor'
+            } (${formatTime({
+              start: section.start,
+              duration: section.duration,
+            })})`;
+          })
+          .join(', ') || '--'
       );
     },
   },
@@ -122,6 +138,54 @@ const analysisStats: Stat[] = [
       return `${round(bpm, 0)} bpm (certainty: ${to100(
         analysis.track.tempo_confidence
       )}%)`;
+    },
+  },
+  {
+    alias: 'Other tempos',
+    field: 'sections',
+    description: 'Other potential tempos in the track.',
+
+    transformer(
+      sections: Record<string, any>[],
+      analysis: Record<string, any>
+    ): string {
+      const { tempo } = analysis.track;
+
+      const filteredSections = analysis.sections.filter(
+        (section: Record<string, any>) => {
+          return (
+            section.duration >= 10 &&
+            section.tempo_confidence > 0.5 &&
+            Math.abs(section.tempo - tempo) >= 4
+          );
+        }
+      );
+
+      const combinedSections: Record<string, any>[] = [];
+
+      for (const section of filteredSections) {
+        const lastSection = combinedSections[combinedSections.length - 1];
+
+        if (
+          lastSection?.start + lastSection?.duration === section.start &&
+          Math.abs(lastSection?.tempo - section.tempo) < 2
+        ) {
+          lastSection.duration += section.duration;
+        } else {
+          combinedSections.push(section);
+        }
+      }
+
+      return (
+        combinedSections
+          .map((section: Record<string, any>) => {
+            return `${section.tempo} (${formatTime({
+              start: section.start,
+              duration: section.duration,
+            })})`;
+          })
+          .join(', ') || '--'
+      );
     },
   },
   {
