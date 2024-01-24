@@ -17,7 +17,7 @@ export default async function TrackPage({
 }) {
   const cookies = getCookies();
 
-  let results: any[];
+  let results: any[] = [];
 
   try {
     results = await Promise.all([
@@ -38,6 +38,7 @@ export default async function TrackPage({
     ]);
   } catch {
     redirect('/');
+    return;
   }
 
   const [audioFeatures, audioAnalysis, track] = results;

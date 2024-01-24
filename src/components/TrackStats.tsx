@@ -1,8 +1,9 @@
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
-import { round } from '@/util';
+import { request, round } from '@/util';
 import TrackStatDetails from './TrackStatDetails';
+import { getCookies } from 'next-client-cookies/server';
 
 interface Stat {
   field: string;
@@ -49,6 +50,15 @@ function formatTime({
 
 const trackStats: Stat[] = [
   {
+    field: 'artist_genres',
+    alias: 'Artist genres',
+    description: 'A list of genres associated with the artists on this track.',
+
+    transformer(artistGenres: string[]): string {
+      return artistGenres.join(', ');
+    },
+  },
+  {
     field: 'popularity',
     description:
       'The popularity of the track. The value will be between 0 and 100, with 100 being the most popular. The popularity is calculated by algorithm and is based, in the most part, on the total number of plays the track has had and how recent those plays are. Generally speaking, songs that are being played a lot now will have a higher popularity than songs that were played a lot in the past. Duplicate tracks (e.g. the same track from a single and an album) are rated independently. Artist and album popularity is derived mathematically from track popularity. Note: the popularity value may lag actual popularity by a few days: the value is not updated in real time.',
@@ -77,58 +87,6 @@ const analysisStats: Stat[] = [
       )}%)`;
     },
   },
-  // {
-  //   alias: 'Other keys',
-  //   field: 'sections',
-  //   description: 'Other potential key/modes in the track.',
-
-  //   transformer(
-  //     sections: Record<string, any>[],
-  //     analysis: Record<string, any>
-  //   ): string {
-  //     const { key, mode } = analysis.track;
-
-  //     const filteredSections = analysis.sections.filter(
-  //       (section: Record<string, any>) => {
-  //         return (
-  //           section.duration >= 10 &&
-  //           section.key_confidence > 0.5 &&
-  //           section.mode_confidence > 0.5 &&
-  //           (section.key !== key || section.mode !== mode)
-  //         );
-  //       }
-  //     );
-
-  //     const combinedSections: Record<string, any>[] = [];
-
-  //     for (const section of filteredSections) {
-  //       const lastSection = combinedSections[combinedSections.length - 1];
-
-  //       if (
-  //         lastSection?.start + lastSection?.duration + 1 >= section.start &&
-  //         lastSection?.key === section.key &&
-  //         lastSection?.mode === section.mode
-  //       ) {
-  //         lastSection.duration += section.duration;
-  //       } else {
-  //         combinedSections.push(section);
-  //       }
-  //     }
-
-  //     return (
-  //       combinedSections
-  //         .map((section: Record<string, any>) => {
-  //           return `${keys[section.key]} ${
-  //             section.mode === 1 ? 'Major' : 'Minor'
-  //           } (${formatTime({
-  //             start: section.start,
-  //             duration: section.duration,
-  //           })})`;
-  //         })
-  //         .join(', ') || '--'
-  //     );
-  //   },
-  // },
   {
     field: 'tempo',
     description:
@@ -140,54 +98,6 @@ const analysisStats: Stat[] = [
       )}%)`;
     },
   },
-  // {
-  //   alias: 'Other tempos',
-  //   field: 'sections',
-  //   description: 'Other potential tempos in the track.',
-
-  //   transformer(
-  //     sections: Record<string, any>[],
-  //     analysis: Record<string, any>
-  //   ): string {
-  //     const { tempo } = analysis.track;
-
-  //     const filteredSections = analysis.sections.filter(
-  //       (section: Record<string, any>) => {
-  //         return (
-  //           section.duration >= 10 &&
-  //           section.tempo_confidence > 0.5 &&
-  //           Math.abs(section.tempo - tempo) >= 4
-  //         );
-  //       }
-  //     );
-
-  //     const combinedSections: Record<string, any>[] = [];
-
-  //     for (const section of filteredSections) {
-  //       const lastSection = combinedSections[combinedSections.length - 1];
-
-  //       if (
-  //         lastSection?.start + lastSection?.duration + 1 >= section.start &&
-  //         Math.abs(lastSection?.tempo - section.tempo) < 2
-  //       ) {
-  //         lastSection.duration += section.duration;
-  //       } else {
-  //         combinedSections.push(section);
-  //       }
-  //     }
-
-  //     return (
-  //       combinedSections
-  //         .map((section: Record<string, any>) => {
-  //           return `${round(section.tempo)} bpm (${formatTime({
-  //             start: section.start,
-  //             duration: section.duration,
-  //           })})`;
-  //         })
-  //         .join(', ') || '--'
-  //     );
-  //   },
-  // },
   {
     field: 'time_signature',
     alias: 'Time signature',
@@ -286,6 +196,20 @@ export default async function TrackStats({
   audioFeatures: Record<string, any>;
   audioAnalysis: Record<string, any>;
 }) {
+  const artistIds = track.artists.map(
+    (artist: Record<string, any>) => artist.id
+  );
+  const cookies = getCookies();
+
+  const { artists } = await request({
+    url: `https://api.spotify.com/v1/artists?ids=${artistIds.join(',')}`,
+    cookies,
+  }).then((response) => response.json());
+
+  track.artist_genres = Array.from(
+    new Set(artists.flatMap((artist: Record<string, any>) => artist.genres))
+  );
+
   return (
     <Grid container columnSpacing={8} rowSpacing={6} pt={2}>
       {analysisStats.map((stat, i) => {
